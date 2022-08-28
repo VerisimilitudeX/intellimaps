@@ -17,6 +17,7 @@ import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.marker.SimplePointMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
+import de.fhpotsdam.unfolding.providers.Microsoft;
 import de.fhpotsdam.unfolding.providers.OpenStreetMap;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 
@@ -29,7 +30,7 @@ import parsing.ParseFeed;
  * @author Your name here
  * Date: July 17, 2015
  * */
-public class EarthquakeCityMapDemo extends PApplet {
+public class EarthquakeCityMapDemo2 extends PApplet {
 
 	// You can ignore this.  It's to keep eclipse from generating a warning.
 	//private static final long serialVersionUID = 1L;
@@ -56,11 +57,11 @@ public class EarthquakeCityMapDemo extends PApplet {
 		size(950, 600, OPENGL);
 
 		// Assume online
-		map = new UnfoldingMap(this, 200, 50, 700, 500, new Google.GoogleMapProvider());
+		map = new UnfoldingMap(this, 0, 0, 950, 800, new Microsoft.HybridProvider());
 //		map = new UnfoldingMap(this, 200, 50, 700, 500, new OpenStreetMap.OpenStreetMapProvider() );
 //	    map = new UnfoldingMap(this, 200, 50, 650, 600, new MBTilesMapProvider(mbTilesString));
 
-	    map.zoomToLevel(1);
+	    map.zoomToLevel(2);
 	    MapUtils.createDefaultEventDispatcher(this, map);	
 			
 	    
@@ -141,15 +142,15 @@ public class EarthquakeCityMapDemo extends PApplet {
 //	    // STAGE 4: format markers on whether "historical" or "recent"
 //	    // Here is an example of how to use Processing's color method to generate 
 //	    // an int that represents the color yellow.  
-	    int yellow = color(255, 255, 0);
-	    int gray = color(150,150,150);
+	    int red = color(255, 0, 0);
+	    int yellow = color(255,255,0);
 	    
 	    for (Marker mk :markers) {
 	    	if ( (int) mk.getProperty("year") > 2000 ) {
-	    		mk.setColor(yellow);
+	    		mk.setColor(red);
 	    	}
 	    	else {
-	    		mk.setColor(gray);
+	    		mk.setColor(yellow);
 	    	}
 	    }
 //	    

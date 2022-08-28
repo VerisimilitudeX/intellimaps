@@ -23,10 +23,12 @@ public class Aerial extends PApplet {
 		map1 = new UnfoldingMap(this, 0, 0, 400, 800, provider);
 		map1.zoomAndPanTo(zoomLevel, new Location(47.641340f, -122.117958f));
 		MapUtils.createDefaultEventDispatcher(this, map1);
+	    map1.setTweening(true);
 
 		map2 = new UnfoldingMap(this, 400, 0, 400, 800, provider);
 		map2.zoomAndPanTo(zoomLevel, new Location(47.641340f, -122.117958f));
 		MapUtils.createDefaultEventDispatcher(this, map2);
+	    map2.setTweening(true);
 	}
 
 	public void draw() {
