@@ -1,4 +1,4 @@
-package google;
+package offline.splitview;
 
 import processing.core.PApplet;
 import de.fhpotsdam.unfolding.UnfoldingMap;
@@ -6,16 +6,15 @@ import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.providers.AbstractMapProvider;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
-import de.fhpotsdam.unfolding.providers.Microsoft;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 
-/** Default
+/** Simple
   * An application with two maps side-by-side zoomed in on different locations.
   * Author: UC San Diego Coursera Intermediate Programming team
   * @author Your name here
   * Date: July 17, 2015
   * */
-public class Simplified2 extends PApplet
+public class Simple extends PApplet
 {
 	/** Your goal: add code to display second map, zoom in, and customize the background.
 	 * Feel free to copy and use this code, adding to it, modifying it, etc.  
@@ -28,7 +27,6 @@ public class Simplified2 extends PApplet
 	public static String mbTilesString = "blankLight-1-3.mbtiles";
 	
 	// IF YOU ARE WORKING OFFLINE: Change the value of this variable to true
-	private static final boolean offline = false;
 	
 	/** The map we use to display our home town: La Jolla, CA */
 	UnfoldingMap map1;
@@ -46,19 +44,12 @@ public class Simplified2 extends PApplet
 		// Play around with these numbers and see what happens!
 		this.background(200, 200, 200);
 		
-		// Select a map provider
-		AbstractMapProvider provider = new Google.GoogleSimplified2Provider();
-		// Set a zoom level
-		int zoomLevel = 10;
-		
-		if (offline) {
 			// If you are working offline, you need to use this provider 
 			// to work with the maps that are local on your computer.  
-			provider = new MBTilesMapProvider(mbTilesString);
+		AbstractMapProvider provider = new MBTilesMapProvider(mbTilesString);
 			// 3 is the maximum zoom level for working offline
-			zoomLevel = 3;
-		}
-		
+		int zoomLevel = 3;
+			
 		// Create a new UnfoldingMap to be displayed in this window.  
 		// The 2nd-5th arguments give the map's x, y, width and height
 		// When you create your map we want you to play around with these 
@@ -66,19 +57,19 @@ public class Simplified2 extends PApplet
 		// The 6th argument specifies the map provider.  
 		// There are several providers built-in.
 		// Note if you are working offline you must use the MBTilesMapProvider
-		map1 = new UnfoldingMap(this, 50, 50, 350, 500, provider);
+		map1 = new UnfoldingMap(this, 0, 0, 400, 800, provider);
 
 		// The next line zooms in and centers the map at 
 	    // 32.9 (latitude) and -117.2 (longitude)
-	    map1.zoomAndPanTo(zoomLevel, new Location(47.641340f, -122.117958f));
+	    map1.zoomAndPanTo(zoomLevel, new Location(32.9f, -117.2f));
 		
 		// This line makes the map interactive
 		MapUtils.createDefaultEventDispatcher(this, map1);
 		
 		// TODO: Add code here that creates map2 
 		// Then you'll modify draw() below
-		map2 = new UnfoldingMap(this, 400, 50, 350, 500, provider);
-	    map2.zoomAndPanTo(zoomLevel, new Location(47.641340f, -122.117958f));
+		map2 = new UnfoldingMap(this, 400, 0, 400, 800, provider);
+	    map2.zoomAndPanTo(zoomLevel, new Location(32.9f, -117.2f));
 		MapUtils.createDefaultEventDispatcher(this, map2);
 	}
 
