@@ -1,4 +1,4 @@
-package google.splitview;
+package google.normal;
 
 import processing.core.PApplet;
 import de.fhpotsdam.unfolding.UnfoldingMap;

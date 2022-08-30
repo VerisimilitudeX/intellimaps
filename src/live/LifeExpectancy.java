@@ -26,6 +26,17 @@ import de.fhpotsdam.unfolding.marker.Marker;
  */
 public class LifeExpectancy extends PApplet {
 
+	/*
+	 * Visualizes life expectancy in different countries.
+	 * 
+	 * It loads the country shapes from a GeoJSON file via a data reader, and loads
+	 * the population density values from
+	 * another CSV file (provided by the World Bank). The data value is encoded to
+	 * transparency via a simplistic linear
+	 * mapping.
+	 */
+	
+	private static final long serialVersionUID = 1674612410756573228L;
 	UnfoldingMap map;
 	Map<String, Float> lifeExpByCountry;
 	List<Feature> countries;

@@ -1,22 +1,18 @@
 package live;
 
-//Java utilities libraries
+// Java utilities libraries
 import java.util.ArrayList;
-//import java.util.Collections;
-//import java.util.Comparator;
 import java.util.List;
 
 //Processing library
 import processing.core.PApplet;
 import processing.core.PFont;
-import processing.core.PShape;
+
 //Unfolding libraries
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.data.PointFeature;
 import de.fhpotsdam.unfolding.marker.SimplePointMarker;
-import de.fhpotsdam.unfolding.providers.Google;
-import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
 import de.fhpotsdam.unfolding.providers.Microsoft;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 
@@ -45,7 +41,7 @@ public class EarthquakeCityMap extends PApplet {
 	private UnfoldingMap map;
 
 	// USGS feed with magnitude 2.5+ Earthquakes
-	private String earthquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
+	private final String earthquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
 
 	public void setup() {
 		size(950, 600, OPENGL);
@@ -56,15 +52,16 @@ public class EarthquakeCityMap extends PApplet {
 		// earthquakesURL = "2.5_week.atom"
 
 		map.zoomToLevel(2);
+		map.setTweening(true);
 		MapUtils.createDefaultEventDispatcher(this, map);
 
-		List<Marker> markers = new ArrayList<Marker>();
+		final List<Marker> markers = new ArrayList<Marker>();
 
 		// Collect properties for each earthquake
-		List<PointFeature> earthquakes = ParseFeed.parseEarthquake(this, earthquakesURL);
+		final List<PointFeature> earthquakes = ParseFeed.parseEarthquake(this, earthquakesURL);
 
-		for (PointFeature pt : earthquakes) {
-			SimplePointMarker spm = createMarker(pt);
+		for (final PointFeature pt : earthquakes) {
+			final SimplePointMarker spm = createMarker(pt);
 			markers.add(spm);
 		}
 
@@ -76,31 +73,15 @@ public class EarthquakeCityMap extends PApplet {
 	 * createMarker: A suggested helper method that takes in an earthquake
 	 * feature and returns a SimplePointMarker for that earthquake
 	 * 
-	 * In step 3 You can use this method as-is. Call it from a loop in the
-	 * setp method.
-	 * 
-	 * TODO (Step 4): Add code to this method so that it adds the proper
-	 * styling to each marker based on the magnitude of the earthquake.
 	 */
-	private SimplePointMarker createMarker(PointFeature feature) {
-		// To print all of the features in a PointFeature (so you can see what they are)
-		// uncomment the line below. Note this will only print if you call createMarker
-		// from setup
-		// System.out.println(feature.getProperties());
+	private SimplePointMarker createMarker(final PointFeature feature) {
 
 		// Create a new SimplePointMarker at the location given by the PointFeature
-		SimplePointMarker marker = new SimplePointMarker(feature.getLocation());
+		final SimplePointMarker marker = new SimplePointMarker(feature.getLocation());
 
-		Object magObj = feature.getProperty("magnitude");
-		float mag = Float.parseFloat(magObj.toString());
+		final Object magObj = feature.getProperty("magnitude");
+		final float mag = Float.parseFloat(magObj.toString());
 
-		// TODO (Step 4): Add code below to style the marker's size and color
-		// according to the magnitude of the earthquake.
-		// Don't forget about the constants THRESHOLD_MODERATE and
-		// THRESHOLD_LIGHT, which are declared above.
-		// Rather than comparing the magnitude to a number directly, compare
-		// the magnitude to these variables (and change their value in the code
-		// above if you want to change what you mean by "moderate" and "light")
 		if (mag <= 2.5) {
 			marker.setColor(blue);
 			marker.setRadius(7);
@@ -121,7 +102,6 @@ public class EarthquakeCityMap extends PApplet {
 			marker.setRadius(22);
 		}
 
-		// Finally return the marker
 		return marker;
 	}
 
@@ -131,15 +111,15 @@ public class EarthquakeCityMap extends PApplet {
 		addKey();
 	}
 
-	// helper method to draw key in GUI
-	// TODO: Implement this method to draw the key
+	// Helper method to draw the map key/legend in GUI
 	private void addKey() {
 		fill(235, 158, 52);
 		rect(50, 50, 150, 500);
 
 		fill(0);
 		textAlign(LEFT, CENTER);
-		textSize(18);
+		final PFont tenorite = createFont("tenorite.ttf", 19);
+		textFont(tenorite);
 		text("MMS Legend", 70, 75);
 
 		textSize(14);
