@@ -68,6 +68,22 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 		drawEarthquake(pg, x, y);
 		
 		// OPTIONAL TODO: draw X over marker if within past day		
+		if (getStringProperty("age").equals("Past Day") || getStringProperty("age").equals("Past Hour")) {
+			float mag = getMagnitude();
+
+			if (this instanceof OceanQuakeMarker) {
+				x = x + mag;
+				y = y + mag;
+
+				mag = mag * 1.4f;
+
+				pg.line(x - mag, y - mag, x + mag, y + mag);
+				pg.line(x + mag, y - mag, x - mag, y + mag);
+			} else {
+				pg.line(x - mag, y - mag, x + mag, y + mag);
+				pg.line(x + mag, y - mag, x - mag, y + mag);
+			}
+		}
 		
 		// reset to previous styling
 		pg.popStyle();
@@ -81,6 +97,15 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 	// You might find the getters below helpful.
 	private void colorDetermine(PGraphics pg) {
 		//TODO: Implement this method
+		double depth = getDepth();
+		EarthquakeCityMap ecm = new EarthquakeCityMap();
+		if (depth > 0 && depth < 70) {
+			pg.fill(ecm.yellow);
+		} else if (depth > 70 && depth < 300) {
+			pg.fill(ecm.blue);
+		} else if (depth > 300 && depth < 700) {
+			pg.fill(ecm.red);
+		}
 	}
 	
 	
