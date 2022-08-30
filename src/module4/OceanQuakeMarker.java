@@ -11,7 +11,7 @@ import processing.core.PGraphics;
  */
 public class OceanQuakeMarker extends EarthquakeMarker {
 	
-	public OceanQuakeMarker(PointFeature quake) {
+	public OceanQuakeMarker(final PointFeature quake) {
 		super(quake);
 		
 		// setting field in earthquake marker
@@ -20,7 +20,7 @@ public class OceanQuakeMarker extends EarthquakeMarker {
 	
 
 	@Override
-	public void drawEarthquake(PGraphics pg, float x, float y) {
+	public void drawEarthquake(final PGraphics pg, final float x, final float y) {
 		// Drawing a centered square for Ocean earthquakes
 		// DO NOT set the fill color.  That will be set in the EarthquakeMarker
 		// class to indicate the depth of the earthquake.

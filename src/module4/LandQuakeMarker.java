@@ -13,7 +13,7 @@ import processing.core.PGraphics;
 public class LandQuakeMarker extends EarthquakeMarker {
 	
 	
-	public LandQuakeMarker(PointFeature quake) {
+	public LandQuakeMarker(final PointFeature quake) {
 		
 		// calling EarthquakeMarker constructor
 		super(quake);
@@ -24,7 +24,7 @@ public class LandQuakeMarker extends EarthquakeMarker {
 
 
 	@Override
-	public void drawEarthquake(PGraphics pg, float x, float y) {
+	public void drawEarthquake(final PGraphics pg, final float x, final float y) {
 		// Draw a centered circle for land quakes
 		// DO NOT set the fill color here.  That will be set in the EarthquakeMarker
 		// class to indicate the depth of the earthquake.

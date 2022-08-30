@@ -15,7 +15,7 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 	
 	// Did the earthquake occur on land?  This will be set by the subclasses.
 	protected boolean isOnLand;
-
+	
 	// SimplePointMarker has a field "radius" which is inherited
 	// by Earthquake marker:
 	// protected float radius;
@@ -44,12 +44,12 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 		
 	
 	// constructor
-	public EarthquakeMarker (PointFeature feature) 
+	public EarthquakeMarker (final PointFeature feature) 
 	{
 		super(feature.getLocation());
 		// Add a radius property and then set the properties
-		java.util.HashMap<String, Object> properties = feature.getProperties();
-		float magnitude = Float.parseFloat(properties.get("magnitude").toString());
+		final java.util.HashMap<String, Object> properties = feature.getProperties();
+		final float magnitude = Float.parseFloat(properties.get("magnitude").toString());
 		properties.put("radius", 2*magnitude );
 		setProperties(properties);
 		this.radius = 1.75f*getMagnitude();
@@ -57,7 +57,7 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 	
 
 	// calls abstract method drawEarthquake and then checks age and draws X if needed
-	public void draw(PGraphics pg, float x, float y) {
+	public void draw(final PGraphics pg, float x, float y) {
 		// save previous styling
 		pg.pushStyle();
 			
@@ -95,10 +95,10 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 	// We suggest: Deep = red, intermediate = blue, shallow = yellow
 	// But this is up to you, of course.
 	// You might find the getters below helpful.
-	private void colorDetermine(PGraphics pg) {
+	private void colorDetermine(final PGraphics pg) {
 		//TODO: Implement this method
-		double depth = getDepth();
-		EarthquakeCityMap ecm = new EarthquakeCityMap();
+		final double depth = getDepth();
+		final EarthquakeCityMap ecm = new EarthquakeCityMap();
 		if (depth > 0 && depth < 70) {
 			pg.fill(ecm.yellow);
 		} else if (depth > 70 && depth < 300) {

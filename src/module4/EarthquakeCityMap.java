@@ -48,7 +48,7 @@ public class EarthquakeCityMap extends PApplet {
 	public int blue = color(0, 0, 255);
 
 	//feed with magnitude 2.5+ Earthquakes
-	private String earthquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
+	private final String earthquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
 	
 	// The files containing city names and info and country names and info
 	private final String cityFile = "city-data.json";
@@ -112,8 +112,8 @@ public class EarthquakeCityMap extends PApplet {
 		  }
 	    }
 
-	    // could be used for debugging
-	    printQuakes();
+	    // Print country and ocean data (uncomment the next line)
+	    // printQuakes();
 	 		
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
@@ -173,7 +173,7 @@ public class EarthquakeCityMap extends PApplet {
 		text("Land", 110, 173);
 		text("Ocean", 110, 223);
 		// Update with symbol for proportional
-		text("Size -> Magnitude", 60, 273);
+		text("Size ~ Magnitude", 62, 273);
 		text("Shallow", 110, 323);
 		text("Intermediate", 110, 373);
 		text("Deep", 110, 423);

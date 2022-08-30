@@ -18,12 +18,12 @@ public class CityMarker extends SimplePointMarker {
 	// It's a good idea to use this variable in your draw method
 	public static final int TRI_SIZE = 5;  
 	
-	public CityMarker(Location location) {
+	public CityMarker(final Location location) {
 		super(location);
 	}
 	
 	
-	public CityMarker(Feature city) {
+	public CityMarker(final Feature city) {
 		super(((PointFeature)city).getLocation(), city.getProperties());
 	}
 	
@@ -32,7 +32,7 @@ public class CityMarker extends SimplePointMarker {
 	/**
 	 * Implementation of method to draw marker on the map.
 	 */
-	public void draw(PGraphics pg, float x, float y) {
+	public void draw(final PGraphics pg, final float x, final float y) {
 		// Save previous drawing style
 		pg.pushStyle();
 		
