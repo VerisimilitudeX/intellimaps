@@ -76,6 +76,7 @@ public class EarthquakeCityMap extends PApplet {
 	private CommonMarker lastSelected;
 	private CommonMarker lastClicked;
 	
+	
 	public void setup() {		
 		// (1) Initializing canvas and map tiles
 		size(900, 700, OPENGL);
@@ -87,11 +88,12 @@ public class EarthquakeCityMap extends PApplet {
 			map = new UnfoldingMap(this, 0, 0, 900, 700, new OpenStreetMap.OpenStreetMapProvider());
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
 		    //earthquakesURL = "2.5_week.atom";
+			earthquakesURL = "quiz2.atom";
 		}
 		MapUtils.createDefaultEventDispatcher(this, map);
 		map.zoomToLevel(2);
 		map.setZoomRange(2, 19);
-		
+				
 		// (2) Reading in earthquake data and geometric properties
 	    //     STEP 1: load country features and markers
 		List<Feature> countries = GeoJSONReader.loadData(this, countryFile);
@@ -121,7 +123,7 @@ public class EarthquakeCityMap extends PApplet {
 
 	    // could be used for debugging
 	    // printQuakes();
-	    sortAndPrint(5);
+	    sortAndPrint(20);
 	 		
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
@@ -137,6 +139,13 @@ public class EarthquakeCityMap extends PApplet {
 		map.draw();
 		addKey();
 		
+	}
+	
+	public void keyPressed() {
+		if (key == 'r')
+			map.rotate(0.1f);
+		if (key == 'l')
+			map.rotate(-0.1f);
 	}
 	
 	// TODO: Add the method:
@@ -267,7 +276,8 @@ public class EarthquakeCityMap extends PApplet {
 		fill(234, 0, 255);
 		int x = 35;
 		int y = 65;
-		triangle(x, y - 5, x - 5, y + 5, x + 5, y + 5);
+		
+		// triangle(x, y - 5, x - 5, y + 5, x + 5, y + 5);
 
 		fill(color(255, 255, 255));
 		ellipse(35, 95, 20, 20);
@@ -301,6 +311,14 @@ public class EarthquakeCityMap extends PApplet {
 		strokeWeight(2);
 		line(25, 235, 45, 255);
 		line(45, 235, 25, 255);
+		
+		pushStyle();
+		fill(234, 0, 255);
+		strokeWeight(8);
+		stroke(234, 0, 255, 100);
+		noFill();
+		ellipse(x, y, 6, 6);
+		popStyle();
 	}
 
 	

@@ -6,6 +6,7 @@ import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.marker.SimplePointMarker;
 import processing.core.PConstants;
 import processing.core.PGraphics;
+import processing.core.PImage;
 
 /** Implements a visual marker for cities on an earthquake map
  * 
@@ -17,8 +18,11 @@ import processing.core.PGraphics;
 // in module 5 (i.e. CityMarker extends CommonMarker).  It will cause an error.
 // That's what's expected.
 public class CityMarker extends CommonMarker {	
-	public CityMarker(Location location) {
+	PImage img;
+	
+	public CityMarker(Location location, PImage img) {
 		super(location);
+		this.img = img;
 	}
 	
 	
@@ -38,7 +42,11 @@ public class CityMarker extends CommonMarker {
 		
 		// IMPLEMENT: drawing triangle for each city
 		pg.fill(234, 0, 255);
-		pg.triangle(x, y - 5, x - 5, y + 5, x + 5, y + 5);
+		pg.strokeWeight(8);
+		pg.stroke(234, 0, 255, 100);
+		pg.noFill();
+		pg.ellipse(x, y, 6, 6);
+		// pg.triangle(x, y - 5, x - 5, y + 5, x + 5, y + 5);
 		
 		// Restore previous drawing style
 		pg.popStyle();
