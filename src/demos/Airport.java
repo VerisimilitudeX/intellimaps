@@ -37,6 +37,7 @@ public class Airport implements Comparable<Airport> {
 		this.dst = dst;
 		this.dbTimezone = dbTimezone;
 	}
+	
 	public int getAirportID() {
 		return airportID;
 	}
