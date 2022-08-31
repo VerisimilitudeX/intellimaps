@@ -13,9 +13,12 @@ import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
+import de.fhpotsdam.unfolding.providers.Microsoft;
+import de.fhpotsdam.unfolding.providers.OpenStreetMap;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import processing.core.PApplet;
+import processing.core.PFont;
 
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
@@ -47,6 +50,15 @@ public class EarthquakeCityMap extends PApplet {
 	private String cityFile = "city-data.json";
 	private String countryFile = "countries.geo.json";
 	
+	// Color variables
+	public int red = color(255, 0, 0);
+	public int orange = color(255, 165, 0);
+	public int yellow = color(255, 255, 0);
+	public int green = color(0, 255, 0);
+	public int turquoise = color(48, 213, 200);
+	public int blue = color(0, 0, 255);
+	
+	
 	// The map
 	private UnfoldingMap map;
 	
@@ -66,16 +78,17 @@ public class EarthquakeCityMap extends PApplet {
 		// (1) Initializing canvas and map tiles
 		size(900, 700, OPENGL);
 		if (offline) {
-		    map = new UnfoldingMap(this, 200, 50, 650, 600, new MBTilesMapProvider(mbTilesString));
+		    map = new UnfoldingMap(this, 0, 0, 900, 700, new MBTilesMapProvider(mbTilesString));
 		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
 		}
 		else {
-			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+			map = new UnfoldingMap(this, 0, 0, 900, 700, new OpenStreetMap.OpenStreetMapProvider());
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
 		    //earthquakesURL = "2.5_week.atom";
 		}
 		MapUtils.createDefaultEventDispatcher(this, map);
-		
+		map.zoomToLevel(2);
+		map.setZoomRange(2, 19);
 		
 		// (2) Reading in earthquake data and geometric properties
 	    //     STEP 1: load country features and markers
@@ -145,6 +158,15 @@ public class EarthquakeCityMap extends PApplet {
 	// 
 	private void selectMarkerIfHover(List<Marker> markers)
 	{
+		for (Marker m : markers) {
+			if (lastSelected == null) {
+				if (m.isInside(map, mouseX, mouseY)) {
+					m.setSelected(true);
+					lastSelected = (CommonMarker) m;
+					break;
+				}
+			}
+		}
 		// TODO: Implement this method
 	}
 	
@@ -154,11 +176,58 @@ public class EarthquakeCityMap extends PApplet {
 	 * where the city is in the threat circle
 	 */
 	@Override
-	public void mouseClicked()
-	{
-		// TODO: Implement this method
+	public void mouseClicked() {
+		// Implement this method
 		// Hint: You probably want a helper method or two to keep this code
 		// from getting too long/disorganized
+		selectMarkerIfClicked(quakeMarkers, cityMarkers);
+	}
+
+	@SafeVarargs
+	private final void selectMarkerIfClicked(List<Marker>... markers) {
+		for (List<Marker> markerList : markers)
+			for (Marker marker : markerList)
+				if (marker.isInside(map, mouseX, mouseY)) {
+					if (lastClicked == marker) {
+						showMarkers();
+						lastClicked = null;
+					} else {
+						clickedMarkerHelper((CommonMarker) marker);
+						lastClicked = (CommonMarker) marker;
+					}
+					return;
+				}
+
+		// No marker clicked
+		showMarkers();
+	}
+
+	private void showMarkers() {
+		for (Marker m : quakeMarkers)
+			m.setHidden(false);
+		for (Marker m : cityMarkers)
+			m.setHidden(false);
+	}
+
+	private void clickedMarkerHelper(CommonMarker markerSelected) {
+		Location location = markerSelected.getLocation();
+		if (markerSelected instanceof EarthquakeMarker) {
+			for (Marker marker : quakeMarkers)
+				marker.setHidden(true);
+
+			double threatDistance = ((EarthquakeMarker) markerSelected).threatCircle();
+			for (Marker marker : cityMarkers)
+				if (marker.getDistanceTo(location) > threatDistance)
+					marker.setHidden(true);
+		} else {
+			for (Marker marker : cityMarkers)
+				marker.setHidden(true);
+
+			for (Marker marker : quakeMarkers)
+				if (marker.getDistanceTo(location) > ((EarthquakeMarker) marker).threatCircle())
+					marker.setHidden(true);
+		}
+		markerSelected.setHidden(false);
 	}
 	
 	
@@ -176,64 +245,54 @@ public class EarthquakeCityMap extends PApplet {
 	// helper method to draw key in GUI
 	private void addKey() {	
 		// Remember you can use Processing's graphics methods here
-		fill(255, 250, 240);
-		
-		int xbase = 25;
-		int ybase = 50;
-		
-		rect(xbase, ybase, 150, 250);
-		
+		fill(235, 158, 52);
+		rect(5, 5, 150, 400, 10);
+
 		fill(0);
-		textAlign(LEFT, CENTER);
-		textSize(12);
-		text("Earthquake Key", xbase+25, ybase+25);
-		
-		fill(150, 30, 30);
-		int tri_xbase = xbase + 35;
-		int tri_ybase = ybase + 50;
-		triangle(tri_xbase, tri_ybase-CityMarker.TRI_SIZE, tri_xbase-CityMarker.TRI_SIZE, 
-				tri_ybase+CityMarker.TRI_SIZE, tri_xbase+CityMarker.TRI_SIZE, 
-				tri_ybase+CityMarker.TRI_SIZE);
 
-		fill(0, 0, 0);
-		textAlign(LEFT, CENTER);
-		text("City Marker", tri_xbase + 15, tri_ybase);
-		
-		text("Land Quake", xbase+50, ybase+70);
-		text("Ocean Quake", xbase+50, ybase+90);
-		text("Size ~ Magnitude", xbase+25, ybase+110);
-		
-		fill(255, 255, 255);
-		ellipse(xbase+35, 
-				ybase+70, 
-				10, 
-				10);
-		rect(xbase+35-5, ybase+90-5, 10, 10);
-		
-		fill(color(255, 255, 0));
-		ellipse(xbase+35, ybase+140, 12, 12);
-		fill(color(0, 0, 255));
-		ellipse(xbase+35, ybase+160, 12, 12);
-		fill(color(255, 0, 0));
-		ellipse(xbase+35, ybase+180, 12, 12);
-		
-		textAlign(LEFT, CENTER);
-		fill(0, 0, 0);
-		text("Shallow", xbase+50, ybase+140);
-		text("Intermediate", xbase+50, ybase+160);
-		text("Deep", xbase+50, ybase+180);
+		final PFont tenorite = createFont("tenorite.ttf", 16);
+		textFont(tenorite);
+		text("Earthquake Legend", 14, 25);
+		line(15, 35, 145, 35);
 
-		text("Past hour", xbase+50, ybase+200);
-		
+		textSize(15);
+
+		fill(234, 0, 255);
+		int x = 35;
+		int y = 65;
+		triangle(x, y - 5, x - 5, y + 5, x + 5, y + 5);
+
+		fill(color(255, 255, 255));
+		ellipse(35, 130, 20, 20);
+		rect(25, 170, 20, 20);
+
+		fill(yellow);
+		ellipse(80, 325, 20, 20);
+
+		fill(blue);
+		ellipse(80, 375, 20, 20);
+
+		fill(red);
+		ellipse(80, 425, 20, 20);
+
 		fill(255, 255, 255);
-		int centerx = xbase+35;
-		int centery = ybase+200;
-		ellipse(centerx, centery, 12, 12);
+		ellipse(80, 475, 20, 20);
+		
+		fill(0, 0, 0);
+		text("Megacity", 110, 123);
+		text("Land", 110, 173);
+		text("Ocean", 110, 223);
+
+		// Update with symbol for proportional
+		text("Size ~ Magnitude", 62, 273);
+		text("Shallow", 110, 323);
+		text("Intermediate", 110, 373);
+		text("Deep", 110, 423);
+		text("Past Day", 110, 473);
 
 		strokeWeight(2);
-		line(centerx-8, centery-8, centerx+8, centery+8);
-		line(centerx-8, centery+8, centerx+8, centery-8);
-			
+		line(70, 465, 90, 485);
+		line(90, 465, 70, 485);
 	}
 
 	
