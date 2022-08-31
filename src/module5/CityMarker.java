@@ -47,7 +47,7 @@ public class CityMarker extends CommonMarker {
 	/** Show the title of the city if this marker is selected */
 	public void showTitle(PGraphics pg, float x, float y)
 	{
-		String title = getCity() + ", " + getCountry() + "\nPopulation: " + getPopulation();
+		String title = getCity() + ", " + getCountry() + "\nPop: " + getPopulation() + " Million";
 		pg.pushStyle();
 		
 		pg.rectMode(PConstants.CORNER);
