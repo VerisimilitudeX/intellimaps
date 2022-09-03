@@ -1,0 +1,42 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch LocationTester",
+            "request": "launch",
+            "mainClass": "demos.LocationTester",
+            "projectName": "UCSDUnfoldingMaps"
+        },
+        {
+            "type": "java",
+            "name": "Launch MyPApplet",
+            "request": "launch",
+            "mainClass": "demos.MyPApplet",
+            "projectName": "UCSDUnfoldingMaps"
+        },
+        {
+            "type": "java",
+            "name": "Launch SearchAndSort",
+            "request": "launch",
+            "mainClass": "demos.SearchAndSort",
+            "projectName": "UCSDUnfoldingMaps"
+        },
+        {
+            "type": "java",
+            "name": "Launch Student",
+            "request": "launch",
+            "mainClass": "demos.Student",
+            "projectName": "UCSDUnfoldingMaps"
+        }
+    ]
+}

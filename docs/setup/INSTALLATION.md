@@ -12,4 +12,4 @@ If the import does not work follow the steps below.
 - Add data/ as src
 
 # Troubleshooting
-Switch Java Compiler to 1.6 if you get VM problems. (Processing should work with JDK 1.6, 1.7, and 1.8)
+Switch Java Compiler to 1.6 if you get VM problems. (Processing should work with JDK 1.6, and 1.7)
