@@ -1,4 +1,4 @@
-# VerisiMaps
+# IntelliMaps
 
 [![wakatime](https://wakatime.com/badge/github/Verisimilitude11/VerisiMaps.svg)](https://wakatime.com/badge/github/Verisimilitude11/VerisiMaps)
 
